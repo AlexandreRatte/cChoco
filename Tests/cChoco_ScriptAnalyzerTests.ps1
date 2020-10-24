@@ -25,22 +25,22 @@ $Modules = Get-ChildItem "$PSScriptRoot\..\" -Filter '*.psm1' -Recurse | Where-O
 # Run Module tests (psm1)         #
 #---------------------------------#
 if ($Modules.count -gt 0) {
-  Describe 'Testing all Modules against default PSScriptAnalyzer rule-set' {
-    foreach ($module in $modules) {
-      Context "Testing Module '$($module.FullName)'" {
-        foreach ($rule in $rules) {
-          It "passes the PSScriptAnalyzer Rule $rule" {
-            $Failures = Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName
-            $FailuresCount = ($Failures | Measure-Object).Count
-            if ($FailuresCount -gt 0) {
-              $Failures | ForEach-Object {
-                Write-Warning "Script: $($_.ScriptName), Line $($_.Line), Message $($_.Message)"
-              }
+    Describe 'Testing all Modules against default PSScriptAnalyzer rule-set' {
+        foreach ($module in $modules) {
+            Context "Testing Module '$($module.FullName)'" {
+                foreach ($rule in $rules) {
+                    It "passes the PSScriptAnalyzer Rule $rule" {
+                        $Failures = Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName
+                        $FailuresCount = ($Failures | Measure-Object).Count
+                        if ($FailuresCount -gt 0) {
+                            $Failures | ForEach-Object {
+                                Write-Warning "Script: $($_.ScriptName), Line $($_.Line), Message $($_.Message)"
+                            }
+                        }
+                        $FailuresCount | Should Be 0
+                    }
+                }
             }
-            $FailuresCount | Should Be 0
-          }
         }
-      }
     }
-  }
 }
