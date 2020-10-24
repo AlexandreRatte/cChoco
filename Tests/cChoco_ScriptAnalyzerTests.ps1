@@ -18,7 +18,7 @@
 #---------------------------------#
 $Rules   = Get-ScriptAnalyzerRule
 
-#Only run on cChocoInstaller.psm1, cChocoPackageInstall.psm1 and cChocoFeature.psm1 for now as this is the only resource that has had code adjustments for PSScriptAnalyzer rules.
+# Only run on cChocoInstaller.psm1, cChocoPackageInstall.psm1 and cChocoFeature.psm1 for now as these are the only resources that had code adjustments for PSScriptAnalyzer rules.
 $Modules = Get-ChildItem "$PSScriptRoot\..\" -Filter '*.psm1' -Recurse | Where-Object {$_.FullName -match '(cChocoInstaller|cChocoPackageInstall|cChocoFeature)\.psm1$'}
 
 #---------------------------------#
