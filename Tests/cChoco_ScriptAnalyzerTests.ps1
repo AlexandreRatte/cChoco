@@ -19,17 +19,17 @@
 $Rules   = Get-ScriptAnalyzerRule
 
 #Only run on cChocoInstaller.psm1 for now as this is the only resource that has had code adjustments for PSScriptAnalyzer rules.
-$Modules = Get-ChildItem “$PSScriptRoot\..\” -Filter ‘*.psm1’ -Recurse | Where-Object {$_.FullName -match '(cChocoInstaller|cChocoPackageInstall|cChocoFeature)\.psm1$'}
+$Modules = Get-ChildItem "$PSScriptRoot\..\" -Filter '*.psm1' -Recurse | Where-Object {$_.FullName -match '(cChocoInstaller|cChocoPackageInstall|cChocoFeature)\.psm1$'}
 
 #---------------------------------#
 # Run Module tests (psm1)         #
 #---------------------------------#
 if ($Modules.count -gt 0) {
-  Describe ‘Testing all Modules against default PSScriptAnalyzer rule-set’ {
+  Describe 'Testing all Modules against default PSScriptAnalyzer rule-set' {
     foreach ($module in $modules) {
-      Context “Testing Module '$($module.FullName)'” {
+      Context "Testing Module '$($module.FullName)'" {
         foreach ($rule in $rules) {
-          It “passes the PSScriptAnalyzer Rule $rule“ {
+          It "passes the PSScriptAnalyzer Rule $rule" {
             $Failures = Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName
             $FailuresCount = ($Failures | Measure-Object).Count
             if ($FailuresCount -gt 0) {
